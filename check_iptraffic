@@ -1,0 +1,13 @@
+#!/bin/bash
+
+while getopts "d:" flag
+do
+    case "${flag}" in
+        d) device=${OPTARG};;
+        \?) echo "invalid option"
+    esac
+done
+
+awk -v dev="$device" '$0 ~ dev { print dev " OK|" "rx="$2 " " "rx_err="$4 " " "rx_multicast="$9 " " "tx="$10 " " "tx_err="$12 }' /proc/net/dev
+
+
